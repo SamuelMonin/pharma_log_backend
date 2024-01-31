@@ -12,7 +12,7 @@ router.get('/deliveryMen', async (req, res) => {
     }
 });
 
-router.delete('/deliveryMen/:id', async (req, res) => {
+router.delete('/deliveryMen/delete', async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
     const deletedDeliveryMan = await deliveryMenModel.findByIdAndDelete(id);
