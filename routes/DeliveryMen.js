@@ -12,7 +12,7 @@ router.get('/deliveryMen', async (req, res) => {
     }
 });
 
-router.delete('/deliveryMen/delete', async (req, res) => {
+router.delete('/deliveryMen/:id', async (req, res) => {
   try {
       const deletedDeliveryMan = await deliveryMenModel.findByIdAndDelete(req.params.id);
       if (!deletedDeliveryMan) {
