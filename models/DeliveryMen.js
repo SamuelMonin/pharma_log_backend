@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const deliveryManSchema = new mongoose.Schema({
-    login: String,
-    password: String
+    name: String,
+    lastname: String
 })
 
 const DeliveryManModel = mongoose.model("deliveryMen", deliveryManSchema);
