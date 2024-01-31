@@ -14,7 +14,8 @@ router.get('/deliveryMen', async (req, res) => {
 
 router.delete('/deliveryMen/:id', async (req, res) => {
   try {
-      const deletedDeliveryMan = await deliveryMenModel.findByIdAndDelete(req.params.id);
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const deletedDeliveryMan = await deliveryMenModel.findByIdAndDelete(id);
       if (!deletedDeliveryMan) {
           return res.status(404).json({ error: 'Livreur non trouvé' });
       }
