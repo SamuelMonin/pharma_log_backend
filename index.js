@@ -21,13 +21,13 @@ const administratorsRouter = require('./routes/Administrators');
 const commandsRouter = require('./routes/Commands');
 const usersRouter = require('./routes/Users');
 const productsRouter = require('./routes/Products');
-const DeliveryMenRouter = require('./routes/DeliveryMen');
+const deliveryMenRouter = require('./routes/DeliveryMen');
 
 
 app.use('/api', administratorsRouter);
 app.use('/api', commandsRouter);
 app.use('/api', usersRouter);
 app.use('/api', productsRouter);
-app.use('/api', DeliveryMenRouter);
+app.use('/api', deliveryMenRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
