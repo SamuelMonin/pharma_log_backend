@@ -3,6 +3,8 @@ const router = express.Router();
 const administratorsModel = require('../models/Administrators');
 const crypto = require('crypto');
 
+router.use(cors());
+
 router.post('/administrators/login', async (req, res) => {
     try {
         const { login, password } = req.body;
