@@ -32,7 +32,7 @@ router.get('/deliveryMen', async (req, res) => {
     }
 });
 
-router.post('/deliveryMen/delete', async (req, res) => {
+router.post('/deliveryMen/delete', auth(['admin']), async (req, res) => {
   try {
     const { id } = req.body;
     const deletedDeliveryMan = await deliveryMenModel.findByIdAndDelete(id);

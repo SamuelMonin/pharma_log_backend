@@ -32,7 +32,7 @@ router.get('/users', async (req, res) => {
     }
 });
 
-router.post('/users/delete', async (req, res) => {
+router.post('/users/delete', auth(['admin']), async (req, res) => {
   try {
     const { id } = req.body;
     const deletedUser = await usersModel.findByIdAndDelete(id);
