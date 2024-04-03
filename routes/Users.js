@@ -22,6 +22,8 @@ const auth = (authorizedProfiles) => (req, res, next) => {
   }
 };
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 router.get('/users', async (req, res) => {
     try {
       const users = await usersModel.find({});
@@ -47,37 +49,26 @@ router.post('/users/delete', auth(['admin']), async (req, res) => {
 });
 
 router.post('/users/add', auth(['admin']), async (req, res) => {
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   try {
-
       if (!emailRegex.test(req.body.mail)) {
           return res.status(400).json({ message: "Le mail n'est pas aux bon format (Ex: john.doe@gmail.com)." });
       }
-
       const hashedPassword = crypto.createHash('sha256').update(req.body.password).digest('hex');
-
       const existingUser = await usersModel.findOne({
         login: req.body.login,
         password: hashedPassword,
         mail: req.body.mail
       });
-
       if (existingUser) {
           return res.status(400).json({ message: "Cet user existe déjà." });
       }
-
       const newUser = new usersModel({
         login: req.body.login,
         password: hashedPassword,
         mail: req.body.mail
       });
-
       await newUser.save();
-
       res.status(200).json({ message: "Cet user a été ajouté avec succès." });
-
   } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Une erreur s'est produite lors de l'ajout du user." });
@@ -85,51 +76,36 @@ router.post('/users/add', auth(['admin']), async (req, res) => {
 });
 
 router.put('/users/update', auth(['admin']), async (req, res) => {
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   try {
-        
     if (!emailRegex.test(req.body.mail)) {
       return res.status(400).json({ message: "Le mail n'est pas aux bon format (Ex: john.doe@gmail.com)." });
     }
-
     const hashedPassword = crypto.createHash('sha256').update(req.body.password).digest('hex');
-
     if (req.body.password.length === 0) {
-
       const existingUser = await usersModel.findOne({
         login: req.body.login,
         mail: req.body.mail
       });
-  
       if (existingUser) {
           return res.status(400).json({ message: "Cet user n'a pas été modifié." });
       }
-
       await usersModel.findByIdAndUpdate(req.body.id, {
         login: req.body.login,
         mail: req.body.mail
       }, { new: true });
       res.status(200).json({ message: "L'user a été mis à jour avec succès." });
-
     } else {
-
       const updatedUser = await usersModel.findByIdAndUpdate(req.body.id, {
         login: req.body.login,
         password: hashedPassword,
         mail: req.body.mail
       }, { new: true });
-  
       if (!updatedUser) {
         return res.status(400).json({ message: "User non trouvé." });
       }
-  
       res.status(200).json({ message: "L'user a été mis à jour avec succès." });
-
     }
-
-    } catch (err) {
+  } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Erreur serveur lors de la mise à jour du user." });
     }

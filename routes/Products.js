@@ -22,6 +22,8 @@ const auth = (authorizedProfiles) => (req, res, next) => {
   }
 };
 
+const numberRegex = /^[0-9]+(\.[0-9]+)?$/;
+
 router.get('/products', async (req, res) => {
     try {
       const products = await productsModel.find({});
@@ -47,9 +49,6 @@ router.post('/products/delete', auth(['admin']), async (req, res) => {
 });
 
 router.post('/products/add', auth(['admin']), async (req, res) => {
-
-  const numberRegex = /^[0-9]+(\.[0-9]+)?$/;
-
   try {
 
       if (!numberRegex.test(req.body.price)) {
@@ -87,41 +86,31 @@ router.post('/products/add', auth(['admin']), async (req, res) => {
 });
 
 router.put('/products/update', auth(['admin']), async (req, res) => {
-
   const numberRegex = /^[0-9]+(\.[0-9]+)?$/;
-
   try {
-        
     if (!numberRegex.test(req.body.price)) {
       return res.status(400).json({ message: "Le prix doit-être un nombre (Ex : 1.99)." });
     }
-
     if (!numberRegex.test(req.body.score)) {
       return res.status(400).json({ message: "Le score doit-être un nombre (Ex : 1.99)." });
     }
-
     const existingProduct = await productsModel.findOne({
       description: req.body.description,
       price: req.body.price,
       score: req.body.score
     });
-
     if (existingProduct) {
         return res.status(400).json({ message: "Ce produit n'a pas été modifié." });
     }
-
     const updatedProduct = await productsModel.findByIdAndUpdate(req.body.id, {
       description: req.body.description,
       price: req.body.price,
       score: req.body.score
       }, { new: true });
-
     if (!updatedProduct) {
       return res.status(400).json({ message: "Produit non trouvé." });
     }
-
     res.status(200).json({ message: "Le produit a été mis à jour avec succès." });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Erreur serveur lors de la mise à jour du produit." });

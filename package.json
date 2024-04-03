@@ -1,7 +1,7 @@
 {
   "name": "pharma_log_backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "This repesitory contains PharmaLog back-end developed with NodeJs.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,14 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamuelMonin/pharma_log_backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SamuelMonin/pharma_log_backend/issues"
+  },
+  "homepage": "https://github.com/SamuelMonin/pharma_log_backend#readme"
 }

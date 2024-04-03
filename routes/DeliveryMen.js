@@ -22,6 +22,8 @@ const auth = (authorizedProfiles) => (req, res, next) => {
   }
 };
 
+const nameRegex = /^[a-zA-Z]+$/;
+
 router.get('/deliveryMen', async (req, res) => {
     try {
       const deliveryMen = await deliveryMenModel.find({});
@@ -83,8 +85,6 @@ router.post('/deliveryMen/add', auth(['admin']), async (req, res) => {
 });
 
 router.put('/deliveryMen/update', auth(['admin']), async (req, res) => {
-
-  const nameRegex = /^[a-zA-Z]+$/;
 
   try {
     if (!nameRegex.test(req.body.name)) {
